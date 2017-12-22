@@ -3,7 +3,7 @@ import ListDemo from './router/List'
 import logo from './logo.svg';
 import _ from 'lodash';
 import './App.css';
-import {Link,BrowserRouter,Switch, Route} from 'react-router-dom';
+import {Link,BrowserRouter,Switch, Route,IndexRoute} from 'react-router-dom';
 import { Layout, Menu, Breadcrumb, Icon } from 'antd';
 const { Header, Content, Footer, Sider } = Layout;
 const SubMenu = Menu.SubMenu;
@@ -34,10 +34,10 @@ class SiderDemo extends React.Component {
         >
           <div className="logo" />
           
-          <Menu theme="dark" defaultSelectedKeys={['list']} mode="inline">
+          <Menu theme="dark" defaultSelectedKeys={[this.props.url]} mode="inline">
             <Menu.Item key="list">
                <Link to='/list'><Icon type="pie-chart" />
-             <span>List</span></Link>
+             <span>list</span></Link>
             </Menu.Item>
             <Menu.Item key="a">
               <Link to='/a'><Icon type="desktop" />
@@ -50,10 +50,10 @@ class SiderDemo extends React.Component {
           </Menu>
         </Sider>
         <Layout>
-          <Header style={{ background: '#fff', padding: 0 }} />
+          <Header style={{ background: '#fff', padding: 0 }}><center><h1>这里放置标题之类的东西</h1></center></Header>
           <Content style={{ margin: '0 16px' }}>
             <Breadcrumb style={{ margin: '16px 0' }}>
-              <Breadcrumb.Item>list</Breadcrumb.Item>
+              <Breadcrumb.Item>{this.props.url}</Breadcrumb.Item>
             </Breadcrumb>
             <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
                 {this.props.children}
@@ -77,13 +77,12 @@ class App extends Component {
 
     return (
       <BrowserRouter>
-        <SiderDemo>
           <Switch>
-          <Route  path="/list" component={ListDemo} on/>
-          <Route  path="/a" component={A}/> 
-          <Route  path="/b" component={B}/>
+          <Route exact path="/" render={props=><SiderDemo {...props} url="list"><ListDemo/></SiderDemo>}/>
+          <Route  path="/list" render={props=><SiderDemo {...props} url="list"><ListDemo/></SiderDemo>} />
+          <Route  path="/a" render={props=><SiderDemo {...props} url="a"><A/></SiderDemo>}/> 
+          <Route  path="/b" render={props=><SiderDemo {...props} url="b"><B/></SiderDemo>}/>
           </Switch> 
-        </SiderDemo>  
       </BrowserRouter>
     
     );
