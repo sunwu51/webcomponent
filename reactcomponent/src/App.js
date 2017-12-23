@@ -1,20 +1,33 @@
-import React, { Component, Children } from 'react';
-import ListDemo from './router/List'
+import React, { Component } from 'react';
 import logo from './logo.svg';
-import _ from 'lodash';
 import './App.css';
-import {Link,BrowserRouter,Switch, Route,IndexRoute} from 'react-router-dom';
+import {Link,HashRouter,BrowserRouter,Switch, Route} from 'react-router-dom';
 import { Layout, Menu, Breadcrumb, Icon } from 'antd';
+import asyncComponent from './AsyncComponent';
+import _ from 'lodash';
 const { Header, Content, Footer, Sider } = Layout;
 const SubMenu = Menu.SubMenu;
 
-function A(){
-  return <h1>A</h1>
-}
-function B(){
-  return <h1>B</h1>
-}
+// const List = () => (
+//   <Bundle load={ListDemo}>
+//       {(ListDemo) => <ListDemo/>}
+//   </Bundle>
+// )
 
+// const At = () => (
+//   <Bundle load={A}>
+//       {(A) => <A/>}
+//   </Bundle>
+// )
+// const Bt = () => (
+//   <Bundle load={B}>
+//       {(B) => <B/>}
+//   </Bundle>
+// )
+
+const List=asyncComponent(()=>import(/* webpackChunkName: "list" */"./router/List"))
+const At=asyncComponent(()=>import(/* webpackChunkName: "a" */"./router/A"))
+const Bt=asyncComponent(()=>import(/* webpackChunkName: "b" */"./router/B"))
 class SiderDemo extends React.Component {
   state = {
     collapsed: false,
@@ -24,6 +37,8 @@ class SiderDemo extends React.Component {
     this.setState({ collapsed });
   }
   render() {
+    let selected=this.props.location.pathname.substring(1)
+    if(selected==="")selected="list"
     return (
       <Layout style={{ minHeight: '100vh' }}>
 
@@ -34,7 +49,7 @@ class SiderDemo extends React.Component {
         >
           <div className="logo" />
           
-          <Menu theme="dark" defaultSelectedKeys={[this.props.url]} mode="inline">
+          <Menu theme="dark" defaultSelectedKeys={[selected]} mode="inline">
             <Menu.Item key="list">
                <Link to='/list'><Icon type="pie-chart" />
              <span>list</span></Link>
@@ -56,7 +71,10 @@ class SiderDemo extends React.Component {
               <Breadcrumb.Item>{this.props.url}</Breadcrumb.Item>
             </Breadcrumb>
             <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-                {this.props.children}
+                <Route exact path="/list" component={List}/>
+                <Route exact path="/a" component={At}/>
+                <Route exact path="/b" component={Bt}/>
+                <Route exact path="/" component={List}/>
             </div>
           </Content>  
           <Footer style={{ textAlign: 'center' }}>
@@ -68,23 +86,17 @@ class SiderDemo extends React.Component {
   }
 }
 
-
-
-
 class App extends Component {
   
   render() {
 
     return (
-      <BrowserRouter>
+      <HashRouter>
           <Switch>
-          <Route exact path="/" render={props=><SiderDemo {...props} url="list"><ListDemo/></SiderDemo>}/>
-          <Route  path="/list" render={props=><SiderDemo {...props} url="list"><ListDemo/></SiderDemo>} />
-          <Route  path="/a" render={props=><SiderDemo {...props} url="a"><A/></SiderDemo>}/> 
-          <Route  path="/b" render={props=><SiderDemo {...props} url="b"><B/></SiderDemo>}/>
+            <Route  path="/" component={SiderDemo}/>
           </Switch> 
-      </BrowserRouter>
-    
+      </HashRouter>
+
     );
   }
 }
