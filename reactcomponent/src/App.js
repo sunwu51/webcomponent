@@ -7,24 +7,6 @@ import asyncComponent from './AsyncComponent';
 import _ from 'lodash';
 const { Header, Content, Footer, Sider } = Layout;
 const SubMenu = Menu.SubMenu;
-
-// const List = () => (
-//   <Bundle load={ListDemo}>
-//       {(ListDemo) => <ListDemo/>}
-//   </Bundle>
-// )
-
-// const At = () => (
-//   <Bundle load={A}>
-//       {(A) => <A/>}
-//   </Bundle>
-// )
-// const Bt = () => (
-//   <Bundle load={B}>
-//       {(B) => <B/>}
-//   </Bundle>
-// )
-
 const List=asyncComponent(()=>import(/* webpackChunkName: "list" */"./router/List"))
 const At=asyncComponent(()=>import(/* webpackChunkName: "a" */"./router/A"))
 const Bt=asyncComponent(()=>import(/* webpackChunkName: "b" */"./router/B"))

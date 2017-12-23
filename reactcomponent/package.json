@@ -99,9 +99,6 @@
     ]
   },
   "eslintConfig": {
-    "extends": "react-app",
-    "rules": {
-      "import/no-webpack-loader-syntax": 0
-    }
+    "extends": "react-app"
   }
 }
