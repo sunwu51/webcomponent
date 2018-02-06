@@ -25,6 +25,8 @@ colums是列的数组，数组的每个元素是Object例如
 
 `type`校验类型，默认就是string，可以选的值目前有number和string，用于校验，在输入格式不一致的时候会提示错误。
 
+`required`是否必须，默认是true，可以手动设置为false。
+
 dataSource是数据部分，对象的属性需要和columns中的key保持一致，columns中的key可以是部分key，例如id字段不想显示，dataSource中有，而columns中不写这个key即可。
 
 onAdd onDelete onUpdate三个函数都需要设置一个参数，该参数为操作的那条数据，例如onAdd中就是添加的对象信息，如果有editable为false的字段这里就不会有。onDelete的参数则是想要删除的那条记录。onUpdate是更新后的那条记录，所以这里需要有专门的id来进行唯一标识。
