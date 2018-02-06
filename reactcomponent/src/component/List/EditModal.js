@@ -29,8 +29,12 @@ class App extends React.Component {
     const { onOk } = this.props;
     this.props.form.validateFields((err, values) => {
       if (!err) {
+        const { titles } = this.props;
         const { record } = this.props;  
-        onOk(Object.assign(Object.assign({},record), values));
+        const numfilds ={};
+        titles.filter(o=>o.type&&o.type=="number").forEach(q=>{
+          numfilds[q.key]=parseFloat(record[q.key])});
+        onOk(Object.assign(Object.assign({},record), numfilds));
         this.setState({
             visible: false,
         });
