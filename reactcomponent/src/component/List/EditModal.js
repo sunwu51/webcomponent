@@ -13,7 +13,12 @@ class App extends React.Component {
     let s =Object.assign({},this.props.record);
     for(let k in s){
       if(! (_.find(this.props.titles,{key:k,editable:false})))
-       s[k]=s[k].toString()
+      {
+         if(s[k]===null)
+           s[k]="null";
+         else
+           s[k]=s[k].toString()
+      }
       else
        delete s[k]
     }
