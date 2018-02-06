@@ -34,7 +34,7 @@ class App extends React.Component {
         const numfilds ={};
         titles.filter(o=>o.type&&o.type=="number").forEach(q=>{
           numfilds[q.key]=parseFloat(record[q.key])});
-        onOk(Object.assign(Object.assign({},record), numfilds));
+        onOk(Object.assign(record,values, numfilds));
         this.setState({
             visible: false,
         });
